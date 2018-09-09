@@ -1,0 +1,104 @@
+<html>
+<head>
+<meta charset=utf-8>
+<title>Фотоохота</title>
+</head>
+<body>
+<table cellspacing=0 border=1 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+<tr height="20pt"><th width="50%">Фотки</th><th width="50%">Игроки</th></tr>
+<tr>
+<td width="50%" style="position: relative;">
+<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: scroll; padding: 0;">
+<table id=images style="margin: 0; width: 100%;" cellspacing=0 border=1></table>
+</div>
+</td>
+<td width="50%" style="position: relative">
+<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: scroll; padding: 0;">
+<table id=users style="margin: 0; width: 100%;" cellspacing=0 border=1></table>
+</div>
+</td>
+</tr>
+</table>
+<script>
+var users = {};
+var pics = [];
+
+function fetchPics()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/images', true);
+    xhr.send('');
+    xhr.onload = function()
+    {
+        var new_pics = JSON.parse(xhr.responseText).data;
+        if(JSON.stringify(new_pics) != JSON.stringify(pics))
+        {
+            pics = new_pics;
+            redrawPics();
+        }
+        setTimeout(fetchPics, 1000);
+    }
+    xhr.onerror = function()
+    {
+        setTimeout(fetchPics, 1000);
+    }
+}
+
+function redrawPics()
+{
+    var html = '';
+    for(var i = 0; i < pics.length; i++)
+    {
+        html += '<tr height="20pt"><td';
+        if(pics[i].type == 'reg')
+            html += ' width="20pt" bgColor=green onclick="doRegister('+i+')"></td><td><input id=name_'+i+' />';
+        else
+            html += ' colspan=2>'+pics[i].name;
+        html += '</td><td width="20pt" bgColor=red onclick="doDismiss('+i+')"></td></tr>';
+        html += '<tr><td colspan=3><img width="90%" src="/images/'+pics[i].id+'" /></td></tr>';
+    }
+    document.getElementById('images').innerHTML = html;
+}
+
+function justPost(url, data)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.send(data);
+}
+
+function doRegister(i)
+{
+    var name = document.getElementById('name_'+i).value;
+    users[pics[i].ip] = name;
+    justPost('/register/'+pics[i].ip, name);
+    doDismiss(i);
+    redrawUsers();
+}
+
+function doDismiss(i)
+{
+    if(!users[pics[i].ip])
+        justPost('/kill/'+pics[i].ip, '');
+    justPost('/dismiss/'+pics[i].id, '');
+}
+
+fetchPics();
+
+function redrawUsers()
+{
+    var html = '';
+    for(var ip in users)
+        html += '<tr height="20pt"><td>'+users[ip]+'</td><td width="20pt" onclick="doKill(\''+ip+'\')" bgColor=red></td></tr>';
+    document.getElementById('users').innerHTML = html;
+}
+
+function doKill(ip)
+{
+    justPost('/kill/'+ip, '');
+    delete users[ip];
+    redrawUsers();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tk.sleirsgoevy.fotoohota" >
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/pistol"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+		android:resizeableActivity = "true">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+			android:screenOrientation="landscape">
+            <intent-filter>
+            </intent-filter>
+        </activity>
+		<activity
+            android:name=".LauncherActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+		<activity
+            android:name=".DeadActivity"
+            android:label="@string/app_name"
+			android:screenOrientation="landscape">
+            <intent-filter>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

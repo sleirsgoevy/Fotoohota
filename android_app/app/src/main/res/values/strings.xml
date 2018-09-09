@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Фотоохота</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="intro1">
+		В этой игре нужно бегать и фотографировать других игроков.
+	</string><string name="intro2">
+		Игроки, которых сфотографировали, выбывают из игры.
+	</string><string name="intro3">
+		Повторная игра (любым способом) - БАН.
+	</string><string name="intro4">
+		Игра в толстовке сборной Москвы - БАН.
+	</string><string name="intro5">
+		Флуд (отсылка большого числа бессмысленных фотографий) - БАН.
+	</string><string name="intro6">
+		Если во время съемки рядом нет Wi-Fi, фото будут отправлены позже.
+	</string>
+	<string name="start">Начать игру</string>
+	<string name="dead">Упс... Кажется, вас сняли!</string>
+</resources>
